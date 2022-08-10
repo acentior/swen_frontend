@@ -178,7 +178,7 @@ const Navbar = ({ title }: { title: string | undefined}) => {
             {pages.map((page) => (
               <Button
                 key={page.title}
-                onClick={handleCloseNavMenu}
+                onClick={handleMenuItemClicked(page.link)}
                 sx={{ my: 2, mx: 1, color: 'white', display: 'block' }}
               >
                 {`${page.title}`}

@@ -72,7 +72,7 @@ const Picture = () => {
             justifyContent: "center",
             alignItems: "center",
             flexDirection: 'column',
-            px: 4,
+            p: 4,
           }}
           component={Paper}
           elevation={6}
@@ -92,7 +92,7 @@ const Picture = () => {
           )}
 
           <ButtonGroup color='secondary' aria-label="medium secondary button group" sx={{
-            mt: 3
+            m: 3
           }}>
             <Button color="secondary" variant="outlined" component="label" startIcon={
               <Folder/>
