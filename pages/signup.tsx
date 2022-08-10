@@ -1,9 +1,10 @@
+import type { NextPage } from 'next'
 import { Box, TextField, Button, Link, } from '@mui/material'
 import Sign from '../components/Sign'
 import { useRouter } from 'next/router'
 import React from 'react'
 
-const SignUp = () => {
+const SignUp: NextPage = () => {
   const history = useRouter()
   const submitHandler = (ev: React.FormEvent<HTMLFormElement>) => {
     ev.preventDefault()

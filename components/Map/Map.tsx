@@ -28,7 +28,7 @@ const Map = ({ className }: Props) => {
 
   useEffect(() => {
     (async function init() {
-      delete L.Icon.Default.prototype._getIconUrl;
+      // delete L.Icon.Default.prototype._getIconUrl;
 
       L.Icon.Default.mergeOptions({
         iconRetinaUrl: iconRetinaUrl.src,

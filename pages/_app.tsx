@@ -44,10 +44,11 @@ const theme = createTheme({
 })
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const AnyComponent = Component as any;
   return (
-    <ThemeProvider theme={theme}>
-      < Component {...pageProps } />
-    </ThemeProvider>
+    < AnyComponent {...pageProps } />
+    // <ThemeProvider theme={theme}>
+    // </ThemeProvider>
   )
 }
 

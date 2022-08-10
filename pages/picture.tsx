@@ -1,3 +1,4 @@
+import type { NextPage } from 'next'
 import React, { useRef, useState, useCallback } from 'react'
 import Navbar from '../components/Navbar';
 import { Grid, Paper, Box, Typography, ButtonGroup, Button, IconButton, TextField, Dialog, DialogTitle} from '@mui/material'
@@ -22,7 +23,7 @@ const videoConstraints: MediaTrackConstraints = {
   // facingMode: "user"
 };
 
-const Picture = () => {
+const Picture: NextPage = () => {
   const webcamRef = useRef<Webcam>(null);
   const [imgSrc, setImgSrc] = useState<null | string>(null);
   const [cameraOpen, setCameraOpen] = useState(false)

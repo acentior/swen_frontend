@@ -1,9 +1,12 @@
+import type { NextPage } from 'next'
 import React, { useEffect, useState } from 'react'
 import Layout from '../components/Layout'
 import Map from '../components/Map'
 
-const MapView = () => {
+const MapView: NextPage = () => {
   const [mounted, setMounted] = useState(false)
+
+  const MapComponent = Map as any;
 
   useEffect(() => {
     setMounted(true)
@@ -13,7 +16,10 @@ const MapView = () => {
   }, [])
   return (
     <Layout title="Map View">
-      <Map/>
+      {/* {Map && (
+        <Map/>
+      )} */}
+      <MapComponent/>
     </Layout>
   )
 }
