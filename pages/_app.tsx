@@ -46,9 +46,9 @@ const theme = createTheme({
 function MyApp({ Component, pageProps }: AppProps) {
   const AnyComponent = Component as any;
   return (
-    < AnyComponent {...pageProps } />
-    // <ThemeProvider theme={theme}>
-    // </ThemeProvider>
+    <ThemeProvider theme={theme}>
+      < AnyComponent {...pageProps } />
+    </ThemeProvider>
   )
 }
 
