@@ -2,13 +2,47 @@ import type { NextPage } from 'next'
 import { Box, TextField, Button, Link, } from '@mui/material'
 import Sign from '../components/Sign'
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, {useState} from 'react'
+import { userService } from '../services'
+
+enum Input {
+  Email,
+  Password
+}
 
 const SignIn: NextPage = () => {
   const history = useRouter()
-  const submitHandler = (ev: React.FormEvent<HTMLFormElement>) => {
+
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+
+  const handleInputChange = (type: Input) => (ev: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> ) => {
+    console.log(ev.target.value)
+    switch (type) {
+      case Input.Email:
+        setEmail(ev.target.value)
+        break;
+
+      case Input.Password:
+        setPassword(ev.target.value)
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  const submitHandler = async (ev: React.FormEvent<HTMLFormElement>) => {
     ev.preventDefault()
-    alert("singin")
+    userService.login(email, password)
+      .then(() => {
+        const returnURL = '/'
+        history.push(returnURL)
+      }).catch((reason: any) => {
+        console.log(`login api error: ${reason}`)
+    })
+    // ev.currentTarget.
+    // alert("singin")
   }
   return (
     <Sign>
@@ -25,7 +59,10 @@ const SignIn: NextPage = () => {
           name="username"
           autoComplete="username"
           variant="standard"
+          value={email}
           autoFocus
+          onChange={handleInputChange(Input.Email)}
+          // onChange={()}
         />
         <TextField
           margin="normal"
@@ -37,6 +74,8 @@ const SignIn: NextPage = () => {
           id="password"
           autoComplete="current-password"
           variant="standard"
+          value={password}
+          onChange={handleInputChange(Input.Password)}
         />
         <Button
           type="submit"

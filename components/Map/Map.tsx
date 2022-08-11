@@ -1,6 +1,6 @@
 
 import React, { useEffect } from 'react';
-import L from 'leaflet';
+import { icon } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
 import styles from './Map.module.css';
@@ -19,6 +19,11 @@ interface Props {
   className?: string
 }
 
+const ICON = icon({
+  iconUrl: "/marker.png",
+  iconSize: [25, 41]
+})
+
 const Map = ({ className }: Props) => {
   let mapClassName = styles.map;
 
@@ -26,25 +31,16 @@ const Map = ({ className }: Props) => {
     mapClassName = `${mapClassName} ${className}`;
   }
 
-  useEffect(() => {
-    (async function init() {
-      // delete L.Icon.Default.prototype._getIconUrl;
-
-      L.Icon.Default.mergeOptions({
-        iconRetinaUrl: iconRetinaUrl.src,
-        iconUrl: iconUrl.src,
-        shadowUrl: shadowUrl.src,
-      });
-    })();
-  }, []);
-
   return (
     <MapContainer className={mapClassName} center={position} zoom={13} scrollWheelZoom={true}>
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <Marker position={position}>
+      <Marker
+        position={position}
+        icon={ICON}
+      >
         <Popup>
           A pretty CSS3 popup. <br /> Easily customizable.
         </Popup>

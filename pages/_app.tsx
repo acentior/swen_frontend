@@ -1,6 +1,9 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import { userService } from '../services';
 
 const theme = createTheme({
   palette: {
@@ -45,6 +48,48 @@ const theme = createTheme({
 
 function MyApp({ Component, pageProps }: AppProps) {
   const AnyComponent = Component as any;
+  const router = useRouter();
+  const [authorized, setAuthorized] = useState(false);
+
+  const authCheck = (url: string) => {
+    const publicPaths = [
+      '/signin',
+      '/signup',
+    ]
+    const path = url
+    console.log(path)
+    console.log(userService.userValue)
+    console.log(publicPaths.includes(path))
+    console.log(!userService.userValue && !publicPaths.includes(path))
+    if (!userService.userValue && !publicPaths.includes(path)) {
+      setAuthorized(false)
+
+      router.push({
+        pathname: '/signin'
+      })
+    } else {
+      setAuthorized(true)
+    }
+  }
+
+  useEffect(() => {
+    // run auth check on initial load
+    authCheck(router.asPath)
+
+    // set authorized to false to hide page content while changing routes
+    const hideContent = () => setAuthorized(false)
+    router.events.on('routeChangeStart', hideContent)
+
+    // run auth check on route change
+    router.events.on('routeChangeComplete', authCheck)
+
+    return () => {
+      router.events.off('routeChangeStart', hideContent)
+      router.events.off('routeChangeComplete', authCheck)
+    }
+  }, [])
+  
+
   return (
     <ThemeProvider theme={theme}>
       < AnyComponent {...pageProps } />
