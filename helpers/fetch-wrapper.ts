@@ -27,6 +27,7 @@ const post = (url: string, data: object) => {
     // withCredentials: true,
   }
   console.log(config)
+  console.log(data)
   return axios.post(url, data, config).then(handleResponse)
 }
 
@@ -61,7 +62,7 @@ const authHeader = (url: string) : AxiosRequestHeaders => {
 }
 
 const handleResponse = (response: AxiosResponse<any, any>) => {
-  const data = response.data()
+  const data = response.data
   if (response.status != 200) {
     if (response.status == 401) {
       userService.logout()
