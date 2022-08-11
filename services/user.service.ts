@@ -8,7 +8,7 @@ const { publicRuntimeConfig } = getConfig();
 const baseUrl = `${publicRuntimeConfig.apiUrl}`;
 const user = typeof window !== 'undefined' && localStorage.getItem('user')
 console.log(`user: ${user}`)
-const userSubject = new BehaviorSubject(user && '');
+const userSubject = new BehaviorSubject(user && JSON.parse(user));
 
 const login = (email: string, password: string) => {
     return fetchWrapper.post(`${baseUrl}/login`, { email, password })
