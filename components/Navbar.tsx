@@ -17,9 +17,11 @@ import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined
 import PhotoOutlinedIcon from '@mui/icons-material/PhotoOutlined';
 import BusinessCenterOutlinedIcon from '@mui/icons-material/BusinessCenterOutlined';
 import GroupOutlinedIcon from '@mui/icons-material/GroupOutlined';
+import LogoutOutlined from '@mui/icons-material/LogoutOutlined';
 import { OverridableComponent } from '@mui/material/OverridableComponent';
 import { ListItemIcon, ListItemText, SvgIconTypeMap } from '@mui/material';
 
+import {userService} from '../services'
 interface Page {
   title: string,
   icon: OverridableComponent<SvgIconTypeMap<{}, "svg">> & {
@@ -77,6 +79,11 @@ const Navbar = ({ title }: { title: string | undefined}) => {
   const handleMenuItemClicked = (path: string) => () => {
     handleCloseNavMenu()
     history.push(path)
+  }
+
+  const logoutClicked = () => {
+    handleCloseNavMenu()
+    userService.logout()
   }
 
   return (
@@ -151,6 +158,20 @@ const Navbar = ({ title }: { title: string | undefined}) => {
                   </ListItemText>
                 </MenuItem>
               ))}
+              <MenuItem
+                  onClick={logoutClicked}
+                  sx={{
+                    // background: "linear-gradient(to bottom right, #7d59bd, #5241a0) no-repeat center fixed",
+                    // backgroundSize: "cover",
+                  }}
+                >
+                  <ListItemIcon>
+                    <LogoutOutlined color={ 'primary' } />
+                  </ListItemIcon>
+                  <ListItemText>
+                    <Typography color={'primary'}>{ 'logout' }</Typography>
+                  </ListItemText>
+                </MenuItem>
             </Menu>
           </Box>
           {/* <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} /> */}
@@ -184,6 +205,12 @@ const Navbar = ({ title }: { title: string | undefined}) => {
                 {`${page.title}`}
               </Button>
             ))}
+              <Button
+                onClick={logoutClicked}
+                sx={{ my: 2, mx: 1, color: 'white', display: 'block' }}
+              >
+                {`logout`}
+              </Button>
           </Box>
         </Toolbar>
       </Container>
