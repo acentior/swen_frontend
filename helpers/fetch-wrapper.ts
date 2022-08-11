@@ -68,6 +68,7 @@ const handleResponse = (response: AxiosResponse<any, any>) => {
       userService.logout()
     }
     const error = data.message || response.statusText
+    console.log(data)
     return Promise.reject(error)
   }
   return data
