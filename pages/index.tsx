@@ -6,9 +6,11 @@ import { useEffect } from 'react'
 import styles from '../styles/Home.module.css'
 
 const Home: NextPage = () => {
+  const history = useRouter()
+  
   useEffect(() => {
-
-  })
+    history.push('/map')
+  }, [])
 
   return (
     <></>
