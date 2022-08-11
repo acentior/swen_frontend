@@ -14,8 +14,9 @@ const get = (url: string) => {
   const config: AxiosRequestConfig = {
     method: 'get',
     headers: { 'Accept': 'application/json', ...authHeader(url) },
-    withCredentials: true,
+    // withCredentials: true,
   }
+  console.log(config)
   return axios.get(url, config).then(handleResponse)
 }
 
@@ -23,7 +24,7 @@ const post = (url: string, data: object) => {
   const config: AxiosRequestConfig = {
     method: 'post',
     headers: { 'Accept': 'application/json', ...authHeader(url) },
-    withCredentials: true,
+    // withCredentials: true,
     data: data
   }
   console.log(config)
