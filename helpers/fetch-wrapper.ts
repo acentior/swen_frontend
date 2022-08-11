@@ -26,6 +26,7 @@ const post = (url: string, data: object) => {
     withCredentials: true,
     data: data
   }
+  console.log(config)
   return axios.post(url, config).then(handleResponse)
 }
 
