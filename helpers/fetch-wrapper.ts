@@ -25,19 +25,18 @@ const post = (url: string, data: object) => {
     // method: 'post',
     headers: { 'Accept': 'application/json', ...authHeader(url) },
     // withCredentials: true,
-    data: data
   }
   console.log(config)
-  return axios.post(url, config).then(handleResponse)
+  return axios.post(url, data, config).then(handleResponse)
 }
 
-const put = (url: string) => {
+const put = (url: string, data: object = {}) => {
   const config: AxiosRequestConfig = {
     // method: 'put',
     headers: { 'Accept': 'application/json', ...authHeader(url) },
     // withCredentials: true,
   }
-  return axios.put(url, config).then(handleResponse)
+  return axios.put(url, data, config).then(handleResponse)
 }
 
 const _delete = (url: string) => {
