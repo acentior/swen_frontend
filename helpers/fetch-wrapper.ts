@@ -12,7 +12,7 @@ const { publicRuntimeConfig } = getConfig();
 
 const get = (url: string) => {
   const config: AxiosRequestConfig = {
-    method: 'get',
+    // method: 'get',
     headers: { 'Accept': 'application/json', ...authHeader(url) },
     // withCredentials: true,
   }
@@ -22,7 +22,7 @@ const get = (url: string) => {
 
 const post = (url: string, data: object) => {
   const config: AxiosRequestConfig = {
-    method: 'post',
+    // method: 'post',
     headers: { 'Accept': 'application/json', ...authHeader(url) },
     // withCredentials: true,
     data: data
@@ -33,18 +33,18 @@ const post = (url: string, data: object) => {
 
 const put = (url: string) => {
   const config: AxiosRequestConfig = {
-    method: 'put',
+    // method: 'put',
     headers: { 'Accept': 'application/json', ...authHeader(url) },
-    withCredentials: true,
+    // withCredentials: true,
   }
   return axios.put(url, config).then(handleResponse)
 }
 
 const _delete = (url: string) => {
   const config: AxiosRequestConfig = {
-    method: 'delete',
+    // method: 'delete',
     headers: { 'Accept': 'application/json', ...authHeader(url) },
-    withCredentials: true,
+    // withCredentials: true,
   }
   return axios.delete(url, config).then(handleResponse)
 }
