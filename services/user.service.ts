@@ -11,7 +11,7 @@ console.log(`user: ${user}`)
 const userSubject = new BehaviorSubject(user && JSON.parse(user));
 
 const login = (email: string, password: string) => {
-    return fetchWrapper.post(`${baseUrl}/login`, { email, password })
+    return fetchWrapper.post(`${baseUrl}/login`, { email, password }, {'Accept': 'application/json'})
         .then(user => {
             // publish user to subscribers and store in local storage to stay logged in between page refreshes
             userSubject.next(user);

@@ -2,5 +2,6 @@ export enum Input {
   Email,
   Username,
   Password,
-  Confirm
+  Confirm,
+  Comment
 }

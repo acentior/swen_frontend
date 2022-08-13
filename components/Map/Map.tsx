@@ -12,6 +12,12 @@ import shadowUrl from 'leaflet/dist/images/marker-shadow.png';
 
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import type { LatLngExpression } from 'leaflet'
+import { useGeolocated } from 'react-geolocated'
+
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc'
+
+dayjs.extend(utc)
 
 // const position : LatLngExpression = [51.505, -0.09]
 
@@ -25,12 +31,38 @@ const ICON = icon({
 })
 
 const Map = ({ className }: Props) => {
+  const {
+    coords,
+    getPosition,
+    isGeolocationAvailable,
+    isGeolocationEnabled,
+    positionError,
+  } = useGeolocated({
+    positionOptions: {
+        enableHighAccuracy: false,
+    },
+    userDecisionTimeout: 5000,
+  });
   const [position, setPosition] = useState<LatLngExpression>([51.505, -0.09])
   let mapClassName = styles.map;
 
   if ( className ) {
     mapClassName = `${mapClassName} ${className}`;
   }
+
+  useEffect(() => {
+    navigator.permissions.query({ name: 'geolocation' }).then((permissionStatus) => {
+      permissionStatus.onchange = getPosition
+    });
+
+    let expired = dayjs().add(1, 'months').utc().format('YYYY-MM-DD HH:mm:ss')
+    console.log(expired)
+    return () => {
+      navigator.permissions.query({ name: 'geolocation' }).then((permissionStatus) => {
+        permissionStatus.onchange = null
+      });
+    }
+  }, [])
 
   return (
     <MapContainer className={mapClassName} center={position} zoom={13} scrollWheelZoom={true}>

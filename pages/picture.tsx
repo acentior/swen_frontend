@@ -3,8 +3,10 @@ import React, { useRef, useState, useCallback, useEffect } from 'react'
 import Navbar from '../components/Navbar';
 import { Grid, Paper, Box, Typography, ButtonGroup, Button, IconButton, TextField, Dialog, DialogTitle} from '@mui/material'
 import Webcam from 'react-webcam'
-import { Camera, Folder, PhotoCamera, Send } from '@mui/icons-material';
+import { Camera, Folder, Google, PhotoCamera, Send } from '@mui/icons-material';
 import { useGeolocated } from 'react-geolocated'
+import { newCluster, newImage, newPost } from '../apis';
+import { Input } from '../constants';
 
 const cameraWidth = 720
 const cameraHeight = 720
@@ -28,13 +30,7 @@ const Picture: NextPage = () => {
   const webcamRef = useRef<Webcam>(null);
   const [imgSrc, setImgSrc] = useState<null | string>(null);
   const [cameraOpen, setCameraOpen] = useState(false)
-
-  // const { coords, isGeolocationAvailable, isGeolocationEnabled, getPosition } = useGeolocated({
-  //   positionOptions: {
-  //       enableHighAccuracy: false,
-  //   },
-  //   userDecisionTimeout: 5000,
-  // });
+  const [comment, setComment] = useState("")
 
   const {
     coords,
@@ -56,6 +52,18 @@ const Picture: NextPage = () => {
     }
   }, [webcamRef, setImgSrc]);
 
+  const handleInputChange = (type: Input) => (ev: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> ) => {
+    console.log(ev.target.value)
+    switch (type) {
+      case Input.Comment:
+        setComment(ev.target.value)
+        break;
+      
+      default:
+        break;
+    }
+  }
+
   const handleFileChange: React.ChangeEventHandler<HTMLInputElement> = (event: React.ChangeEvent<HTMLInputElement>) => {
     const fileObj = event.target.files && event.target.files[0]
     if (!fileObj) return
@@ -64,12 +72,33 @@ const Picture: NextPage = () => {
     console.log(URL.createObjectURL(fileObj))
   }
 
-  const handleSubmit = (ev: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = ({imgSrc, comment}: {imgSrc: string | null, comment: string}) => (ev: React.FormEvent<HTMLFormElement>) => {
     // getPosition()
     ev.preventDefault()
+    if (imgSrc === null) {
+      alert(`image is not yet set`)
+      return
+    }
     if (isGeolocationAvailable) {
       if (isGeolocationEnabled) {
         console.log(coords)
+        if (coords) {
+          newCluster({ latitude: coords?.latitude, longitude: coords.longitude })
+            .then((cluster_id: string) => {
+              console.log(`new cluster added, id: ${cluster_id}`)
+              return newImage({ url: imgSrc })
+                .then((content: string) => {
+                  console.log(`new image added, id: ${content}`)
+                  return newPost({ cluster_id, comment, content})
+                })
+                .then(() => {
+                alert("new post success")
+              })
+            })
+            .catch((reason: any) => {
+            console.log(reason)
+          })
+        }
       } else {
         alert("Please enable location on your browser")
       }
@@ -176,7 +205,7 @@ const Picture: NextPage = () => {
           <div>{`${isGeolocationAvailable}-`}</div>
           <div>{`${isGeolocationEnabled}-`}</div>
           <div>{`${coords}-`}</div>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{
+          <Box component="form" noValidate onSubmit={handleSubmit({imgSrc, comment})} sx={{
             py: 8,
             px: 1,
             // display: 'flex',
@@ -196,6 +225,8 @@ const Picture: NextPage = () => {
               variant="standard"
               multiline
               autoFocus
+              onChange={handleInputChange(Input.Comment)}
+              value={comment}
             />
             <Button
               type="submit"
@@ -210,10 +241,6 @@ const Picture: NextPage = () => {
             </Button>
           </Box>
         </Grid>
-        <CameraDlg
-          open={cameraOpen}
-          onClose={handleCameraClose}
-        />
       </Grid>
     </>
   );
@@ -225,62 +252,5 @@ interface SimpleDialogProps {
   onClose: (value: string) => void;
 }
 
-const CameraDlg = (props: SimpleDialogProps) => {
-  const { onClose, open } = props;
-
-  const handleClose = () => {
-    onClose("");
-  };
-
-  const webcamRef = useRef<Webcam>(null);
-  const [imgSrc, setImgSrc] = useState<null | string>(null);
-
-  const capture = useCallback(() => {
-    if (webcamRef.current) {
-      const imageSrc = webcamRef.current.getScreenshot({ width: cameraWidth, height: cameraHeight });
-      setImgSrc(imageSrc);
-      if (imageSrc) {
-        onClose(imageSrc)
-      }
-    }
-  }, [webcamRef, setImgSrc]);
-
-  return (
-    <Dialog onClose={handleClose} open={open}
-      sx={{
-        maxWidth: "90vw"
-      }}
-    >
-      <DialogTitle>
-        <Typography
-          color='primary'
-          variant='h3'
-          component='h3'
-        >
-          Capture image from camera
-        </Typography>
-      </DialogTitle>
-      <Webcam
-        audio={false}
-        ref={webcamRef}
-        screenshotFormat="image/jpeg"
-        mirrored={true}
-        videoConstraints={videoConstraints}
-        screenshotQuality={1}
-        style={{
-          width: '100%'
-        }}
-      />
-      <Button color="primary" variant="text" component="label" endIcon={
-        <Camera/>
-      }
-        onClick={capture}
-      >
-        Capture
-        {/* <input hidden accept="image/*" type="file" /> */}
-      </Button>
-    </Dialog>
-  );
-}
 
 export default Picture

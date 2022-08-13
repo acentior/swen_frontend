@@ -20,10 +20,10 @@ const get = (url: string) => {
   return axios.get(url, config).then(handleResponse)
 }
 
-const post = (url: string, data: object) => {
+const post = (url: string, data: object, header: AxiosRequestHeaders) => {
   const config: AxiosRequestConfig = {
     // method: 'post',
-    headers: { 'Accept': 'application/json', ...authHeader(url) },
+    headers: { ...header, ...authHeader(url) },
     // withCredentials: true,
   }
   console.log(config)
@@ -52,10 +52,10 @@ const _delete = (url: string) => {
 const authHeader = (url: string) : AxiosRequestHeaders => {
     // return auth header with jwt if user is logged in and request is to the api url
     const user = userService.userValue;
-    const isLoggedIn = user && user.token;
+    const isLoggedIn = user && user.access_token;
     const isApiUrl = url.startsWith(publicRuntimeConfig.apiUrl);
     if (isLoggedIn && isApiUrl) {
-        return { Authorization: `Bearer ${user.token}` };
+        return { Authorization: `Bearer ${user.access_token}` };
     } else {
         return {};
     }
