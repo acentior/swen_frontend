@@ -69,9 +69,9 @@ function MyApp({ Component, pageProps }: AppProps) {
     if (userService.userValue && !publicPaths.includes(path)) {
       setAuthorized(false)
 
-      // router.push({
-      //   pathname: '/signin'
-      // })
+      router.push({
+        pathname: '/signin'
+      })
     } else {
       setAuthorized(true)
     }
