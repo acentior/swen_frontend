@@ -91,8 +91,9 @@ const Picture: NextPage = () => {
                   console.log(`new image added, id: ${content}`)
                   return newPost({ cluster_id, comment, content})
                 })
-                .then(() => {
-                alert("new post success")
+                .then((data) => {
+                  console.log(data)
+                  alert("new post success")
               })
             })
             .catch((reason: any) => {
