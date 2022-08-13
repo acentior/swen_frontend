@@ -63,7 +63,7 @@ const authHeader = (url: string) : AxiosRequestHeaders => {
 
 const handleResponse = (response: AxiosResponse<any, any>) => {
   const data = response.data
-  if (response.status != 200) {
+  if (![200, 201].includes(response.status)) {
     if (response.status == 401) {
       userService.logout()
     }
