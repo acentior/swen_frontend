@@ -36,7 +36,7 @@ export const userService = {
     user: userSubject.asObservable(),
     get userValue() {
         console.log(`userSubject: ${userSubject.value}`)
-        console.log(userSubject.value)
+        console.log(userSubject)
         return userSubject.value
     },
     login,
