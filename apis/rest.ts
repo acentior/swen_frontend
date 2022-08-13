@@ -69,7 +69,7 @@ export const newImage = ({ url }: { url: string }) => {
 export const newPost = ({ cluster_id, comment, content }: { cluster_id: string, comment: string, content: string }) => {
   const created_by_id = userService.userValue.user_id
   let expires_at = dayjs().add(1, 'months').utc().format('MM/DD/YYYY HH:mm:ss')
-  return fetchWrapper.post(`${baseUrl}/v1/uploads/media`, {
+  return fetchWrapper.post(`${baseUrl}/v1/uploads`, {
     created_by_id,
     expires_at,
     cluster_id,
