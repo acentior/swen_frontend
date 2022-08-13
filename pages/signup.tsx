@@ -2,14 +2,54 @@ import type { NextPage } from 'next'
 import { Box, TextField, Button, Link, } from '@mui/material'
 import Sign from '../components/Sign'
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { Input } from '../constants'
+import { register } from '../apis'
 
 const SignUp: NextPage = () => {
   const history = useRouter()
-  const submitHandler = (ev: React.FormEvent<HTMLFormElement>) => {
-    ev.preventDefault()
-    alert("singup")
+
+  const [email, setEmail] = useState("")
+  const [username, setUsername] = useState("")
+  const [password, setPassword] = useState("")
+  const [confirm, setConfirm] = useState("")
+
+  const handleInputChange = (type: Input) => (ev: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> ) => {
+    console.log(ev.target.value)
+    switch (type) {
+      case Input.Email:
+        setEmail(ev.target.value)
+        break;
+
+      case Input.Username:
+        setUsername(ev.target.value)
+        break;
+
+      case Input.Password:
+        setPassword(ev.target.value)
+        break;
+
+      case Input.Confirm:
+        setConfirm(ev.target.value)
+        break;
+
+      default:
+        break;
+    }
   }
+
+  const submitHandler = async (ev: React.FormEvent<HTMLFormElement>) => {
+    ev.preventDefault()
+    register({ email, username, password })
+      .then(() => {
+      console.log("registered")
+      })
+      .catch((reason: any) => {
+      console.log("register failed")
+      console.log(reason)
+    })
+  }
+
   return (
     <Sign>
       <Box component="form" noValidate onSubmit={submitHandler} sx={{
@@ -26,6 +66,8 @@ const SignUp: NextPage = () => {
           autoComplete="email"
           variant="standard"
           autoFocus
+          value={email}
+          onChange={handleInputChange(Input.Email)}
         />
         <TextField
           margin="normal"
@@ -36,6 +78,8 @@ const SignUp: NextPage = () => {
           name="username"
           autoComplete="username"
           variant="standard"
+          value={username}
+          onChange={handleInputChange(Input.Username)}
         />
         <TextField
           margin="normal"
@@ -47,6 +91,8 @@ const SignUp: NextPage = () => {
           id="password"
           autoComplete="current-password"
           variant="standard"
+          value={password}
+          onChange={handleInputChange(Input.Password)}
         />
         <TextField
           margin="normal"
@@ -58,6 +104,8 @@ const SignUp: NextPage = () => {
           id="confirm-password"
           autoComplete=""
           variant="standard"
+          value={confirm}
+          onChange={handleInputChange(Input.Confirm)}
         />
         <Button
           type="submit"
@@ -65,7 +113,7 @@ const SignUp: NextPage = () => {
           variant="contained"
           sx={{ mt: 4, mb: 2 }}
         >
-          Sign In
+          Sign Up
         </Button>
         <Link
           variant="body2"

@@ -4,11 +4,7 @@ import Sign from '../components/Sign'
 import { useRouter } from 'next/router'
 import React, {useState} from 'react'
 import { userService } from '../services'
-
-enum Input {
-  Email,
-  Password
-}
+import { Input } from '../constants'
 
 const SignIn: NextPage = () => {
   const history = useRouter()

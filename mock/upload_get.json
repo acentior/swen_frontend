@@ -1,0 +1,87 @@
+{
+  "data": {
+    "id": 25,
+    "comment": "This is a screenshot",
+    "expires_at": "10/08/2022 11:13:15",
+    "upload_type": null,
+    "status": "active",
+    "type": "post",
+    "created_at": "2022-08-10 14:50:12",
+    "updated_at": "2022-08-10 14:50:12",
+    "deleted_at": null,
+    "created_by_id": 2,
+    "cluster_id": 1,
+    "content": {
+      "id": 5,
+      "model_type": "App\\Models\\Upload",
+      "model_id": 25,
+      "uuid": "7b49fe53-bcf8-4372-be7d-e196978e44cb",
+      "collection_name": "content",
+      "name": "62f3c4008a6f2_3. home",
+      "file_name": "62f3c4008a6f2_3.-home.png",
+      "mime_type": "image/png",
+      "disk": "public",
+      "conversions_disk": "public",
+      "size": 1093769,
+      "manipulations": [],
+      "custom_properties": [],
+      "generated_conversions": {
+        "thumb": true,
+        "preview": true
+      },
+      "responsive_images": [],
+      "order_column": 1,
+      "created_at": "2022-08-10T14:50:12.000000Z",
+      "updated_at": "2022-08-10T14:50:12.000000Z",
+      "original_url": "https://devapp.swenewsapp.com/storage/5/62f3c4008a6f2_3.-home.png",
+      "preview_url": "https://devapp.swenewsapp.com/storage/5/conversions/62f3c4008a6f2_3.-home-preview.jpg"
+    },
+    "created_by": {
+      "id": 2,
+      "name": "Arman",
+      "email": "risingdev000@gmail.com",
+      "email_verified_at": null,
+      "created_at": "2022-08-08 15:27:07",
+      "updated_at": "2022-08-08 15:27:07",
+      "deleted_at": null
+    },
+    "cluster": {
+      "id": 1,
+      "latitude": "51.507358",
+      "longitude": "-0.127642",
+      "expires": "09/17/2022 15:54:42",
+      "notes": null,
+      "status": null,
+      "created_at": "2022-08-08 16:51:33",
+      "updated_at": "2022-08-08 16:51:33",
+      "deleted_at": null
+    },
+    "media": [
+      {
+        "id": 5,
+        "model_type": "App\\Models\\Upload",
+        "model_id": 25,
+        "uuid": "7b49fe53-bcf8-4372-be7d-e196978e44cb",
+        "collection_name": "content",
+        "name": "62f3c4008a6f2_3. home",
+        "file_name": "62f3c4008a6f2_3.-home.png",
+        "mime_type": "image/png",
+        "disk": "public",
+        "conversions_disk": "public",
+        "size": 1093769,
+        "manipulations": [],
+        "custom_properties": [],
+        "generated_conversions": {
+          "thumb": true,
+          "preview": true
+        },
+        "responsive_images": [],
+        "order_column": 1,
+        "created_at": "2022-08-10T14:50:12.000000Z",
+        "updated_at": "2022-08-10T14:50:12.000000Z",
+        "original_url": "https://devapp.swenewsapp.com/storage/5/62f3c4008a6f2_3.-home.png",
+        "preview_url": "https://devapp.swenewsapp.com/storage/5/conversions/62f3c4008a6f2_3.-home-preview.jpg"
+      }
+    ]
+  }
+}

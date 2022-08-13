@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { icon } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
@@ -13,7 +13,7 @@ import shadowUrl from 'leaflet/dist/images/marker-shadow.png';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import type { LatLngExpression } from 'leaflet'
 
-const position : LatLngExpression = [51.505, -0.09]
+// const position : LatLngExpression = [51.505, -0.09]
 
 interface Props {
   className?: string
@@ -25,6 +25,7 @@ const ICON = icon({
 })
 
 const Map = ({ className }: Props) => {
+  const [position, setPosition] = useState<LatLngExpression>([51.505, -0.09])
   let mapClassName = styles.map;
 
   if ( className ) {

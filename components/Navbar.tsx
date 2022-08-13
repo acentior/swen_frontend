@@ -18,6 +18,7 @@ import PhotoOutlinedIcon from '@mui/icons-material/PhotoOutlined';
 import BusinessCenterOutlinedIcon from '@mui/icons-material/BusinessCenterOutlined';
 import GroupOutlinedIcon from '@mui/icons-material/GroupOutlined';
 import LogoutOutlined from '@mui/icons-material/LogoutOutlined';
+import SendOutlined from '@mui/icons-material/SendOutlined';
 import { OverridableComponent } from '@mui/material/OverridableComponent';
 import { ListItemIcon, ListItemText, SvgIconTypeMap } from '@mui/material';
 
@@ -39,7 +40,12 @@ const pages : Page[] = [
   {
     title: 'List view',
     icon: PhotoOutlinedIcon,
-    link: '/'
+    link: '/listview'
+  },
+  {
+    title: 'Post',
+    icon: SendOutlined,
+    link: '/picture'
   },
   {
     title: 'Units',

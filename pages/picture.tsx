@@ -1,9 +1,10 @@
 import type { NextPage } from 'next'
-import React, { useRef, useState, useCallback } from 'react'
+import React, { useRef, useState, useCallback, useEffect } from 'react'
 import Navbar from '../components/Navbar';
 import { Grid, Paper, Box, Typography, ButtonGroup, Button, IconButton, TextField, Dialog, DialogTitle} from '@mui/material'
 import Webcam from 'react-webcam'
 import { Camera, Folder, PhotoCamera, Send } from '@mui/icons-material';
+import { useGeolocated } from 'react-geolocated'
 
 const cameraWidth = 720
 const cameraHeight = 720
@@ -28,6 +29,26 @@ const Picture: NextPage = () => {
   const [imgSrc, setImgSrc] = useState<null | string>(null);
   const [cameraOpen, setCameraOpen] = useState(false)
 
+  // const { coords, isGeolocationAvailable, isGeolocationEnabled, getPosition } = useGeolocated({
+  //   positionOptions: {
+  //       enableHighAccuracy: false,
+  //   },
+  //   userDecisionTimeout: 5000,
+  // });
+
+  const {
+    coords,
+    getPosition,
+    isGeolocationAvailable,
+    isGeolocationEnabled,
+    positionError,
+  } = useGeolocated({
+    positionOptions: {
+        enableHighAccuracy: false,
+    },
+    userDecisionTimeout: 5000,
+  });
+
   const capture = useCallback(() => {
     if (webcamRef.current) {
       const imageSrc = webcamRef.current.getScreenshot({ width: cameraWidth, height: cameraHeight });
@@ -43,9 +64,20 @@ const Picture: NextPage = () => {
     console.log(URL.createObjectURL(fileObj))
   }
 
-  const handleSubmit = () => {
-
+  const handleSubmit = (ev: React.FormEvent<HTMLFormElement>) => {
+    // getPosition()
+    ev.preventDefault()
+    if (isGeolocationAvailable) {
+      if (isGeolocationEnabled) {
+        console.log(coords)
+      } else {
+        alert("Please enable location on your browser")
+      }
+    } else {
+      alert("Please update or change your browser")
+    }
   }
+
 
   const handleCameraOpen = () => {
     setCameraOpen(true)
@@ -57,6 +89,19 @@ const Picture: NextPage = () => {
       setImgSrc(imageSrc)
     }
   }
+
+  useEffect(() => {
+    navigator.permissions.query({ name: 'geolocation' }).then((permissionStatus) => {
+      permissionStatus.onchange = getPosition
+    });
+  
+    return () => {
+      navigator.permissions.query({ name: 'geolocation' }).then((permissionStatus) => {
+        permissionStatus.onchange = null
+      });
+    }
+  }, [])
+  
 
   return (
     <>
@@ -128,6 +173,9 @@ const Picture: NextPage = () => {
           justifyContent: "center",
           alignItems: 'center',
         }}>
+          <div>{`${isGeolocationAvailable}-`}</div>
+          <div>{`${isGeolocationEnabled}-`}</div>
+          <div>{`${coords}-`}</div>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{
             py: 8,
             px: 1,

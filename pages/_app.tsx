@@ -32,6 +32,11 @@ const theme = createTheme({
     h3: {
       color: "#AFA3D4",
       fontSize: "1.5rem"
+    },
+    h4: {
+      color: "#ffffff",
+      fontSize: "1.2rem",
+      // textAlign: "center"
     }
   },
   components: {
