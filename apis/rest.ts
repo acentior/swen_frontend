@@ -7,14 +7,14 @@ const baseUrl = `${publicRuntimeConfig.apiUrl}`;
 
 // register
 export const register = (
-  { email, username, password }:
+  { email, name, password }:
   {
     email: string,
-    username: string,
+    name: string,
     password: string
   }
 ) => {
-  return fetchWrapper.post(`${baseUrl}/register`, { email, username, password })
+  return fetchWrapper.post(`${baseUrl}/register`, { email, name, password })
 }
 
 // uploaded images
