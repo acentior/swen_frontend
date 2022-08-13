@@ -37,9 +37,8 @@ const SignIn: NextPage = () => {
       }).catch((reason: any) => {
         console.log(`login api error: ${reason}`)
     })
-    // ev.currentTarget.
-    // alert("singin")
   }
+  
   return (
     <Sign>
       <Box component="form" noValidate onSubmit={submitHandler} sx={{
@@ -50,10 +49,10 @@ const SignIn: NextPage = () => {
           margin="normal"
           required
           fullWidth
-          id="username"
-          label="USERNAME"
-          name="username"
-          autoComplete="username"
+          id="email"
+          label="Email"
+          name="email"
+          autoComplete="email"
           variant="standard"
           value={email}
           autoFocus
