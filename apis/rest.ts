@@ -42,17 +42,27 @@ export const newCluster = ({ latitude, longitude }: { latitude: string, longitud
 }
 
 // upload image
-export const newImage = ({ url }: { url: string }) => {
-  let bodyFormData = new FormData();
-  bodyFormData.append('file', '', url)
-
-  return fetchWrapper.post(`${baseUrl}/v1/uploads/media`, bodyFormData, {
-    "Accept": 'application/json',
-    "Content-Type": "multipart/form-data"
+export const newImage = async async ({ url }: { url: string }) => {
+  // const res = await fetch(url);
+  // const buf = await res.arrayBuffer();
+  // const file = new File([buf], fileName, { type: mimeType });
+  
+  // const blob = new Blob()
+  return fetch(url)
+  .then(res => res.arrayBuffer())
+  .then(buf => new File([buf], 'to upload.png', { type: 'image/png' }))
+  .then(img => {
+      let bodyFormData = new FormData();
+      bodyFormData.append('file', img)
+      return fetchWrapper.post(`${baseUrl}/v1/uploads/media`, bodyFormData, {
+        "Accept": 'application/json',
+        "Content-Type": "multipart/form-data"
+      })
   })
-    .then((data: { name: string, original_name: string }) => {
+  .then((data: { name: string, original_name: string }) => {
     return data.name
   })
+
 }
 
 // upload post
