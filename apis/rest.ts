@@ -29,7 +29,7 @@ export const uploadedImages = () => {
 }
 
 // new cluster
-export const newCluster = ({ latitude, longitude }: { latitude: number, longitude: number }) => {
+export const newCluster = ({ latitude, longitude }: { latitude: string, longitude: string }) => {
   let expires = dayjs().add(1, 'months').utc().format('MM/DD/YYYY HH:mm:ss')
   return fetchWrapper.post(`${baseUrl}/v1/clusters`, {
     latitude,

@@ -83,7 +83,7 @@ const Picture: NextPage = () => {
       if (isGeolocationEnabled) {
         console.log(coords)
         if (coords) {
-          newCluster({ latitude: coords?.latitude, longitude: coords.longitude })
+          newCluster({ latitude: coords?.latitude.toString(), longitude: coords.longitude.toString() })
             .then((cluster_id: string) => {
               console.log(`new cluster added, id: ${cluster_id}`)
               return newImage({ url: imgSrc })
