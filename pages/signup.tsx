@@ -40,7 +40,7 @@ const SignUp: NextPage = () => {
 
   const submitHandler = async (ev: React.FormEvent<HTMLFormElement>) => {
     ev.preventDefault()
-    register({ email, username, password })
+    register({ email, name: username, password })
       .then(() => {
       console.log("registered")
       })
