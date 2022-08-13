@@ -42,7 +42,7 @@ export const newCluster = ({ latitude, longitude }: { latitude: string, longitud
 }
 
 // upload image
-export const newImage = async async ({ url }: { url: string }) => {
+export const newImage = ({ url }: { url: string }) => {
   // const res = await fetch(url);
   // const buf = await res.arrayBuffer();
   // const file = new File([buf], fileName, { type: mimeType });
