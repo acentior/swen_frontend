@@ -995,7 +995,7 @@
       "cluster": {
         "id": 1,
         "latitude": "51.507358",
-        "longitude": "-0.127642",
+        "longitude": "-0.1273",
         "expires": "09/17/2022 15:54:42",
         "notes": null,
         "status": null,
@@ -1054,7 +1054,7 @@
       "cluster": {
         "id": 1,
         "latitude": "51.507358",
-        "longitude": "-0.127642",
+        "longitude": "-0.127655",
         "expires": "09/17/2022 15:54:42",
         "notes": null,
         "status": null,

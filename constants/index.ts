@@ -15,10 +15,13 @@ export type MediaPost = {
 }
 
 export type MapPost = {
-  url: string,
-  comment: string,
-  created_at: string,
-  created_by: string,
+  location: [number, number],
+  posts: {
+    url: string,
+    comment: string,
+    created_at: string,
+    created_by: string,
+  }[]
 }
 
 export type MediasResponse = {
