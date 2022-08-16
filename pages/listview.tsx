@@ -9,7 +9,9 @@ import WatchLaterIcon from '@mui/icons-material/WatchLater';
 import { FixedSizeList, ListChildComponentProps } from 'react-window';
 import { Virtuoso } from 'react-virtuoso'
 import { geoReverse, uploadedImages } from '../apis';
+import { MediaPost, MediasResponse } from '../constants';
 import { LatLngExpression } from 'leaflet';
+import uploads_get from '../mock/uploads_get.json'
 const cameraWidth = 720
 const cameraHeight = 720
 const aspectRatio = cameraWidth / cameraHeight
@@ -31,59 +33,68 @@ const videoConstraints: MediaTrackConstraints = {
 const imageSize = 120
 const testImageURL = 'https://images.unsplash.com/photo-1533827432537-70133748f5c8'
 
-type Image = {
-  url: string,
-  comment: string,
-  created_at: string,
-  created_by: string,
-  location: [number, number]
-}
-
 const Picture: NextPage = () => {
   const webcamRef = useRef<Webcam>(null);
   const [imgSrc, setImgSrc] = useState<null | string>(null);
   const [cameraOpen, setCameraOpen] = useState(false)
   const [selectedIndex, setSelectedIndex] = useState(1);
   const [location, setLocation] = useState("")
-  const [images, setImages] = useState<Image[]>([
-    {
-      url: 'https://images.unsplash.com/photo-1533827432537-70133748f5c8',
-      comment: "These is very adorable. I am loving this. Sometimes this pictures just are beautiful!",
-      created_at: "2022-08-09 00:41:58",
-      created_by: "Arman Khasikyan",
-      location: [51.507358, -0.127642]
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62',
-      comment: "These is very adorable. I am loving this. Sometimes this pictures just are beautiful!",
-      created_at: "2022-08-09 00:41:58",
-      created_by: "Arman Khasikyan",
-      location: [51.507358, -0.127642]
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1518756131217-31eb79b20e8f',
-      comment: "These is very adorable. I am loving this. Sometimes this pictures just are beautiful!",
-      created_at: "2022-08-09 00:41:58",
-      created_by: "Arman Khasikyan",
-      location: [51.507358, -0.127642]
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
-      comment: "These is very adorable. I am loving this. Sometimes this pictures just are beautiful!",
-      created_at: "2022-08-09 00:41:58",
-      created_by: "Arman Khasikyan",
-      location: [51.507358, -0.127642]
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1533827432537-70133748f5c8',
-      comment: "These is very adorable. I am loving this. Sometimes this pictures just are beautiful!",
-      created_at: "2022-08-09 00:41:58",
-      created_by: "Arman Khasikyan",
-      location: [51.507358, -0.127642]
-    },
+  const [images, setImages] = useState<MediaPost[]>([
+    // {
+    //   url: 'https://images.unsplash.com/photo-1533827432537-70133748f5c8',
+    //   comment: "These is very adorable. I am loving this. Sometimes this pictures just are beautiful!",
+    //   created_at: "2022-08-09 00:41:58",
+    //   created_by: "Arman Khasikyan",
+    //   location: [51.507358, -0.127642]
+    // },
+    // {
+    //   url: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62',
+    //   comment: "These is very adorable. I am loving this. Sometimes this pictures just are beautiful!",
+    //   created_at: "2022-08-09 00:41:58",
+    //   created_by: "Arman Khasikyan",
+    //   location: [51.507358, -0.127642]
+    // },
+    // {
+    //   url: 'https://images.unsplash.com/photo-1518756131217-31eb79b20e8f',
+    //   comment: "These is very adorable. I am loving this. Sometimes this pictures just are beautiful!",
+    //   created_at: "2022-08-09 00:41:58",
+    //   created_by: "Arman Khasikyan",
+    //   location: [51.507358, -0.127642]
+    // },
+    // {
+    //   url: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
+    //   comment: "These is very adorable. I am loving this. Sometimes this pictures just are beautiful!",
+    //   created_at: "2022-08-09 00:41:58",
+    //   created_by: "Arman Khasikyan",
+    //   location: [51.507358, -0.127642]
+    // },
+    // {
+    //   url: 'https://images.unsplash.com/photo-1533827432537-70133748f5c8',
+    //   comment: "These is very adorable. I am loving this. Sometimes this pictures just are beautiful!",
+    //   created_at: "2022-08-09 00:41:58",
+    //   created_by: "Arman Khasikyan",
+    //   location: [51.507358, -0.127642]
+    // },
   ])
 
   useEffect(() => {
+    function resToState(res: MediasResponse[]) {
+      res.map((post) => {
+        setImages(images => {
+          const newPost: MediaPost = {
+            url: post.content?.original_url || '',
+            comment: post.comment || '',
+            created_at: post.created_at,
+            created_by: post.created_by.name,
+            location: [ Number(post.cluster.latitude), Number(post.cluster.longitude)]
+          }
+          return [...images, newPost]
+        })
+      })
+    }
+    if (process.env.NODE_ENV === 'development') {
+      resToState(uploads_get.data)
+    }
     // uploadedImages().then((uploads) => {
     //   uploads.map((upload) => {
     //     const comment = upload.comment

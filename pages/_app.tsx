@@ -66,7 +66,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     console.log(userService.userValue)
     console.log(publicPaths.includes(path))
     console.log(!userService.userValue && !publicPaths.includes(path))
-    if (!userService.userValue && !publicPaths.includes(path)) {
+    if (!userService.userValue && !publicPaths.includes(path) && process.env.NODE_ENV === 'production') {
       setAuthorized(false)
 
       router.push({

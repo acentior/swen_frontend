@@ -5,3 +5,38 @@ export enum Input {
   Confirm,
   Comment
 }
+
+export type MediaPost = {
+  url: string,
+  comment: string,
+  created_at: string,
+  created_by: string,
+  location: [number, number]
+}
+
+export type MapPost = {
+  url: string,
+  comment: string,
+  created_at: string,
+  created_by: string,
+}
+
+export type MediasResponse = {
+  id: number,
+  comment: null | string,
+  content: null | {
+    id: number,
+    original_url: string,
+    preview_url: string
+  },
+  created_at: string,
+  created_by_id: number,
+  created_by: {
+    name: string
+  },
+  cluster: {
+    id: number,
+    latitude: string,
+    longitude: string
+  }
+}
