@@ -36,7 +36,6 @@ const theme = createTheme({
     h4: {
       color: "#ffffff",
       fontSize: "1.2rem",
-      // textAlign: "center"
     }
   },
   components: {

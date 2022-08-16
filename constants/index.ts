@@ -8,6 +8,7 @@ export enum Input {
 
 export type MediaPost = {
   url: string,
+  preview: string,
   comment: string,
   created_at: string,
   created_by: string,

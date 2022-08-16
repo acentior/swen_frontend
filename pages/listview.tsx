@@ -83,6 +83,7 @@ const Picture: NextPage = () => {
         setImages(images => {
           const newPost: MediaPost = {
             url: post.content?.original_url || '',
+            preview: post.content.preview_url || ''
             comment: post.comment || '',
             created_at: post.created_at,
             created_by: post.created_by.name,
@@ -299,8 +300,8 @@ const Picture: NextPage = () => {
                     onClick={(event) => handleListItemClick(event, index)}
                   >
                     <img
-                      src={`${images[index].url}?w=${imageSize}&h=${imageSize}&fit=crop&auto=format`}
-                      srcSet={`${images[index].url}?w=${imageSize}&h=${imageSize}&fit=crop&auto=format&dpr=2 2x`}
+                      src={`${images[index].preview}`}
+                      srcSet={`${images[index].preview}`}
                       alt={`${index}`}
                       loading="lazy"
                     />
