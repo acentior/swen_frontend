@@ -168,13 +168,13 @@ const Map = ({ className }: Props) => {
 
   return (
     <>
-      <MapContainer className={mapClassName} center={position} zoom={13} scrollWheelZoom={true}>
+      <MapContainer className={mapClassName} center={position} zoom={15} scrollWheelZoom={true}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         {images.map((image, idx) => (
-          <Circle key={idx} center={image.location} pathOptions={redOptions} radius={30} eventHandlers={{
+          <Circle key={idx} center={image.location} pathOptions={redOptions} radius={100} eventHandlers={{
             click: (ev: LeafletMouseEvent) => {
               handleImagesOpen(images[idx])
             }
@@ -220,7 +220,8 @@ const ImagesDlg = (props: SimpleDialogProps) => {
         lon: posts.location[1]
       }).then((data) => {
         console.log(data)
-        setLocation(data.address.city + ", " + data.address.state + ", " + data.address.country)
+        setLocation(data.display_name)
+        // setLocation(data.address.city + ", " + data.address.state + ", " + data.address.country)
       }).catch((reason: any) => {
         console.log(reason)
       })
