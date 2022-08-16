@@ -94,6 +94,12 @@ const Picture: NextPage = () => {
     }
     if (process.env.NODE_ENV === 'development') {
       resToState(uploads_get.data)
+    } else {
+      uploadedImages().then((data) => {
+        resToState(data.data)
+      }).catch((reason: any) => {
+        console.log(reason)
+      })
     }
     // uploadedImages().then((uploads) => {
     //   uploads.map((upload) => {
