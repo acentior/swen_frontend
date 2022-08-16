@@ -19,7 +19,7 @@ import utc from 'dayjs/plugin/utc'
 import { MapPost, MediaPost, MediasResponse } from '../../constants';
 import uploads_get from '../../mock/uploads_get.json'
 import { Box, Button, Dialog, DialogTitle, Typography } from '@mui/material';
-import { geoReverse } from '../../apis';
+import { geoReverse, uploadedImages } from '../../apis';
 
 
 dayjs.extend(utc)
@@ -121,6 +121,12 @@ const Map = ({ className }: Props) => {
         console.log(images)
         return images
       })
+    } else {
+      uploadedImages().then((data) => {
+        resToState(data.data)
+      }).catch((reason: any) => {
+        console.log(reason)
+      })
     }
 
     return () => {
@@ -157,7 +163,7 @@ const Map = ({ className }: Props) => {
 
   return (
     <>
-      <MapContainer className={mapClassName} center={position} zoom={13} scrollWheelZoom={true}>
+      <MapContainer className={mapClassName} center={[coords?.latitude || 0, coords?.longitude || 0]} zoom={13} scrollWheelZoom={true}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -169,14 +175,14 @@ const Map = ({ className }: Props) => {
             }
           }} />
         ))}
-        {/* <Marker
-          position={position}
+        <Marker
+          position={[coords?.latitude || 0, coords?.longitude || 0]}
           icon={ICON}
         >
           <Popup>
             A pretty CSS3 popup. <br /> Easily customizable.
           </Popup>
-        </Marker> */}
+        </Marker>
       </MapContainer>
       <ImagesDlg
         open={imagesOpen}
