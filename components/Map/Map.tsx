@@ -241,6 +241,17 @@ const ImagesDlg = (props: SimpleDialogProps) => {
       >
           Posts
       </DialogTitle>
+      <Typography
+        component={'h4'}
+        variant={'h4'}
+        sx={{
+          display: 'block',
+          mt: 1
+        }}
+        color='primary'
+      >
+        {`At: ${location}`}
+      </Typography>
       {posts?.posts.map((post, idx) => (
         <div key={idx} style={{
           margin: "1rem 1rem 0rem 1rem"
@@ -268,17 +279,6 @@ const ImagesDlg = (props: SimpleDialogProps) => {
               color='primary'
             >
               {`By: ${post.created_by}`}
-            </Typography>
-            <Typography
-              component={'h4'}
-              variant={'h4'}
-              sx={{
-                display: 'block',
-                mt: 1
-              }}
-              color='primary'
-            >
-              {`At: ${location}`}
             </Typography>
             <Typography
               component={'h4'}

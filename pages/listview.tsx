@@ -124,7 +124,8 @@ const Picture: NextPage = () => {
       lon: images[index].location[1]
     }).then((data) => {
       console.log(data)
-      setLocation(data.address.city + ", " + data.address.state + ", " + data.address.country)
+      setLocation(data.display_name)
+      // setLocation(data.address.city + ", " + data.address.state + ", " + data.address.country)
     }).catch((reason: any) => {
       console.log(reason)
     })
