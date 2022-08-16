@@ -72,7 +72,10 @@ const Map = ({ className }: Props) => {
 
   useEffect(() => {
     navigator.permissions.query({ name: 'geolocation' }).then((permissionStatus) => {
-      permissionStatus.onchange = getPosition
+      permissionStatus.onchange = () => {
+        getPosition()
+        setPosition([coords?.latitude, coords?.longitude])
+      }
     });
 
     function resToState(res: MediasResponse[]) {
@@ -163,7 +166,7 @@ const Map = ({ className }: Props) => {
 
   return (
     <>
-      <MapContainer className={mapClassName} center={[coords?.latitude || 0, coords?.longitude || 0]} zoom={13} scrollWheelZoom={true}>
+      <MapContainer className={mapClassName} center={position} zoom={13} scrollWheelZoom={true}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -176,7 +179,7 @@ const Map = ({ className }: Props) => {
           }} />
         ))}
         <Marker
-          position={[coords?.latitude || 0, coords?.longitude || 0]}
+          position={position}
           icon={ICON}
         >
           <Popup>
