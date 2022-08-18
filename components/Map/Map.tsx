@@ -45,7 +45,7 @@ function LocationMarker() {
     map.locate().on("locationfound", function (e: LocationEvent) {
       setPosition(e.latlng);
       console.log(`zoom: ${map.getZoom()}`)
-      map.flyTo(e.latlng, map.getZoom());
+      // map.flyTo(e.latlng, map.getZoom());
       setBbox(e.bounds.toBBoxString().split(","));
     });
   }, [map]);
@@ -280,70 +280,80 @@ const ImagesDlg = (props: SimpleDialogProps) => {
       >
           Posts
       </DialogTitle>
-      <Typography
-        component={'h4'}
-        variant={'h4'}
-        sx={{
-          display: 'block',
-          mt: 1
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: 'column',
+          margin: "0rem 1.5rem 1.5rem 1.5rem"
         }}
-        color='primary'
       >
-        {`At: ${location}`}
-      </Typography>
-      {posts?.posts.map((post, idx) => (
-        <div key={idx} style={{
-          margin: "1rem 1rem 0rem 1rem"
-        }}>
-          <Box
-            component="img"
-            alt="image"
-            src={post.url}
-            sx={{
-              maxWidth: '100%',
-              maxHeight: '60vh',
-              display: 'block',
-              color: 'white'
-            }}
-            loading='lazy'
-          />
-          <div>
-            <Typography
-              component={'h4'}
-              variant={'h4'}
+        <Typography
+          component={'h4'}
+          variant={'h4'}
+          sx={{
+            display: 'block',
+            mb: 1
+          }}
+          color='primary'
+        >
+          {`At: ${location}`}
+        </Typography>
+        {posts?.posts.map((post, idx) => (
+          <div key={idx} style={{
+            marginBottom: "1rem"
+          }}>
+            <Box
+              component="img"
+              alt="image"
+              src={post.url}
               sx={{
+                maxWidth: '100%',
+                maxHeight: '60vh',
                 display: 'block',
-                mt: 3
+                color: 'white'
               }}
-              color='primary'
-            >
-              {`By: ${post.created_by}`}
-            </Typography>
-            <Typography
-              component={'h4'}
-              variant={'h4'}
-              sx={{
-                display: 'block',
-                mt: 1
-              }}
-              color='primary'
-            >
-              {`On: ${post.created_at}`}
-            </Typography>
-            <Typography
-              component={'p'}
-              variant={'body1'}
-              sx={{
-                display: 'inline-block',
-                mt: 1,
-              }}
-              color='primary'
-            >
-              {`${post.comment}`}
-            </Typography>
+              loading='lazy'
+            />
+            <div>
+              <Typography
+                component={'h4'}
+                variant={'h4'}
+                sx={{
+                  display: 'block',
+                  mt: 3
+                }}
+                color='primary'
+              >
+                {`By: ${post.created_by}`}
+              </Typography>
+              <Typography
+                component={'h4'}
+                variant={'h4'}
+                sx={{
+                  display: 'block',
+                  mt: 1
+                }}
+                color='primary'
+              >
+                {`On: ${post.created_at}`}
+              </Typography>
+              <Typography
+                component={'p'}
+                variant={'body1'}
+                sx={{
+                  display: 'inline-block',
+                  mt: 1,
+                }}
+                color='primary'
+              >
+                {`${post.comment}`}
+              </Typography>
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </Dialog>
   );
 }

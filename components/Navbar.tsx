@@ -21,6 +21,7 @@ import LogoutOutlined from '@mui/icons-material/LogoutOutlined';
 import SendOutlined from '@mui/icons-material/SendOutlined';
 import { OverridableComponent } from '@mui/material/OverridableComponent';
 import { ListItemIcon, ListItemText, SvgIconTypeMap } from '@mui/material';
+import Link from 'next/link'
 
 import {userService} from '../services'
 interface Page {
@@ -148,22 +149,22 @@ const Navbar = ({ title }: { title: string | undefined}) => {
               }}
             >
               {pages.map((page) => (
-                <MenuItem
-                  key={page.title}
-                  onClick={handleMenuItemClicked(page.link)}
-                  sx={{
-                    // background: "linear-gradient(to bottom right, #7d59bd, #5241a0) no-repeat center fixed",
-                    // backgroundSize: "cover",
-                  }}
-                >
-                  <ListItemIcon>
-                    <page.icon color={ 'primary' } />  
-                  </ListItemIcon>
-                  <ListItemText>
-                    <Typography color={'primary'}>{ page.title }</Typography>
-                  </ListItemText>
-                </MenuItem>
-              ))}
+                <Link key={page.title} href={page.link} passHref={true}>
+                  <MenuItem
+                    sx={{
+                      // background: "linear-gradient(to bottom right, #7d59bd, #5241a0) no-repeat center fixed",
+                      // backgroundSize: "cover",
+                    }}
+                  >
+                    <ListItemIcon>
+                      <page.icon color={ 'primary' } />  
+                    </ListItemIcon>
+                    <ListItemText>
+                      <Typography color={'primary'}>{ page.title }</Typography>
+                    </ListItemText>
+                  </MenuItem>
+                </Link>
+                ))}
               <MenuItem
                   onClick={logoutClicked}
                   sx={{
@@ -203,13 +204,14 @@ const Navbar = ({ title }: { title: string | undefined}) => {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex', justifyContent: 'right'} }}>
             {pages.map((page) => (
-              <Button
-                key={page.title}
-                onClick={handleMenuItemClicked(page.link)}
-                sx={{ my: 2, mx: 1, color: 'white', display: 'block' }}
-              >
-                {`${page.title}`}
-              </Button>
+              <Link key={page.title} href={page.link} passHref={true}>
+                <Button
+                  // onClick={handleMenuItemClicked(page.link)}
+                  sx={{ my: 2, mx: 1, color: 'white', display: 'block' }}
+                >
+                  {`${page.title}`}
+                </Button>
+              </Link>
             ))}
               <Button
                 onClick={logoutClicked}

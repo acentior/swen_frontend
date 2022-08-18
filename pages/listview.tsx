@@ -303,7 +303,7 @@ const Picture: NextPage = () => {
                     <img
                       src={`${images[index].preview}`}
                       srcSet={`${images[index].preview}`}
-                      alt={`${index}`}
+                      alt={""}
                       loading="lazy"
                     />
                     <Box
