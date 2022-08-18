@@ -71,6 +71,8 @@ const Map = ({ className }: Props) => {
   }
 
   useEffect(() => {
+    console.log("first coords")
+    console.log(coords)
     if (coords) {
       setPosition([coords.latitude, coords.longitude])
     }
