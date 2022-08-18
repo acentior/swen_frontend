@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { icon, LeafletEventHandlerFnMap, LeafletMouseEvent } from 'leaflet';
+import { icon, LatLng, LeafletEventHandlerFnMap, LeafletMouseEvent, LocationEvent } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
 import styles from './Map.module.css';
@@ -10,7 +10,7 @@ import iconUrl from 'leaflet/dist/images/marker-icon.png';
 import shadowUrl from 'leaflet/dist/images/marker-shadow.png';
 
 
-import { MapContainer, TileLayer, Marker, Popup, Circle } from 'react-leaflet'
+import { MapContainer, TileLayer, Marker, Popup, Circle, useMap } from 'react-leaflet'
 import type { LatLngExpression } from 'leaflet'
 import { useGeolocated } from 'react-geolocated'
 
@@ -35,8 +35,37 @@ const ICON = icon({
   iconSize: [25, 41]
 })
 
-const Map = ({ className }: Props) => {
+function LocationMarker() {
+  const [position, setPosition] = useState<null | LatLng>(null);
+  const [bbox, setBbox] = useState<string[]>([]);
 
+  const map = useMap();
+
+  useEffect(() => {
+    map.locate().on("locationfound", function (e: LocationEvent) {
+      setPosition(e.latlng);
+      console.log(`zoom: ${map.getZoom()}`)
+      map.flyTo(e.latlng, map.getZoom());
+      setBbox(e.bounds.toBBoxString().split(","));
+    });
+  }, [map]);
+
+  return position === null ? null : (
+    <Marker position={position} icon={ICON}>
+      <Popup>
+        You are here. <br />
+        Map bbox: <br />
+        <b>Southwest lng</b>: {bbox[0]} <br />
+        <b>Southwest lat</b>: {bbox[1]} <br />
+        <b>Northeast lng</b>: {bbox[2]} <br />
+        <b>Northeast lat</b>: {bbox[3]}
+      </Popup>
+    </Marker>
+  );
+}
+
+const Map = ({ className }: Props) => {
+  // const map = useMap();
   const {
     coords,
     getPosition,
@@ -70,6 +99,13 @@ const Map = ({ className }: Props) => {
     mapClassName = `${mapClassName} ${className}`;
   }
 
+  // useEffect(() => {
+  //   map.locate().on("locationfound", function (e) {
+  //     setPosition(e.latlng);
+  //     map.flyTo(e.latlng, map.getZoom());
+  //   });
+  // }, [map]);
+
   useEffect(() => {
     console.log("first coords")
     console.log(coords)
@@ -79,13 +115,6 @@ const Map = ({ className }: Props) => {
     navigator.permissions.query({ name: 'geolocation' }).then((permissionStatus) => {
       permissionStatus.onchange = () => {
         getPosition()
-        console.log("coords")
-        console.log(coords)
-        navigator.geolocation.getCurrentPosition((pos: GeolocationPosition) => {
-          setPosition([pos.coords.latitude, pos.coords.longitude])
-        })
-        // if (coords) {
-        // }
       }
     });
 
@@ -189,14 +218,15 @@ const Map = ({ className }: Props) => {
             }
           }} />
         ))}
-        <Marker
+        <LocationMarker/>
+        {/* <Marker
           position={position}
           icon={ICON}
         >
           <Popup>
             A pretty CSS3 popup. <br /> Easily customizable.
           </Popup>
-        </Marker>
+        </Marker> */}
       </MapContainer>
       <ImagesDlg
         open={imagesOpen}
