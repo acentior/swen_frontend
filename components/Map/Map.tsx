@@ -74,6 +74,7 @@ const Map = ({ className }: Props) => {
     navigator.permissions.query({ name: 'geolocation' }).then((permissionStatus) => {
       permissionStatus.onchange = () => {
         getPosition()
+        console.log(coords)
         if (coords) {
           setPosition([coords.latitude, coords.longitude])
         }
