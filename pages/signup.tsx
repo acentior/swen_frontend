@@ -5,9 +5,12 @@ import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { Input } from '../constants'
 import { register } from '../apis'
+import { SnackbarProvider, VariantType, useSnackbar } from 'notistack';
+
 
 const SignUp: NextPage = () => {
   const history = useRouter()
+  const { enqueueSnackbar } = useSnackbar();
 
   const [email, setEmail] = useState("")
   const [username, setUsername] = useState("")
@@ -40,14 +43,26 @@ const SignUp: NextPage = () => {
 
   const submitHandler = async (ev: React.FormEvent<HTMLFormElement>) => {
     ev.preventDefault()
+    if (email === "") {
+      enqueueSnackbar("Email is required", { variant: "error" })
+    } else if (username === "") {
+      enqueueSnackbar("Username is required", { variant: "error" })
+    } else if (password === "") {
+      enqueueSnackbar("Password is required", { variant: "error" })
+    } else if (confirm === "") {
+      enqueueSnackbar("Confirm is required", { variant: "error" })
+    } else if (password !== confirm) {
+      enqueueSnackbar("Please check passowrd and confirm", { variant: "error" })
+    }
     register({ email, name: username, password })
       .then(() => {
-      console.log("registered")
+        enqueueSnackbar("Register success", { variant: "success" })
+        console.log("registered")
       })
       .catch((reason: any) => {
-      console.log("register failed")
-      console.log(reason)
-    })
+        enqueueSnackbar("Register faild", { variant: "error" })
+        console.log(reason)
+      })
   }
 
   return (

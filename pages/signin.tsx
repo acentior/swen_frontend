@@ -5,9 +5,12 @@ import { useRouter } from 'next/router'
 import React, {useState} from 'react'
 import { userService } from '../services'
 import { Input } from '../constants'
+import { SnackbarProvider, VariantType, useSnackbar } from 'notistack';
+
 
 const SignIn: NextPage = () => {
   const history = useRouter()
+  const { enqueueSnackbar } = useSnackbar();
 
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -30,15 +33,22 @@ const SignIn: NextPage = () => {
 
   const submitHandler = async (ev: React.FormEvent<HTMLFormElement>) => {
     ev.preventDefault()
-    userService.login(email, password)
-      .then(() => {
-        const returnURL = '/'
-        history.push(returnURL)
-      }).catch((reason: any) => {
-        console.log(`login api error: ${reason}`)
-    })
+    if (email === "") {
+      enqueueSnackbar("Email is required", { variant: "error" })
+    } else if (password === "") {
+      enqueueSnackbar("Password is required", { variant: "error" })
+    } else {
+      userService.login(email, password)
+        .then(() => {
+          const returnURL = '/'
+          history.push(returnURL)
+        }).catch((reason: any) => {
+          console.log(`login api error: ${reason}`)
+          enqueueSnackbar(`login api error: ${reason}`, { variant: "error" })
+        })
+    }
   }
-  
+
   return (
     <Sign>
       <Box component="form" noValidate onSubmit={submitHandler} sx={{
@@ -72,6 +82,17 @@ const SignIn: NextPage = () => {
           value={password}
           onChange={handleInputChange(Input.Password)}
         />
+        {/* <Button
+          type="button"
+          fullWidth
+          variant="contained"
+          sx={{ mt: 10, mb: 2 }}
+          onClick={() => {
+            enqueueSnackbar("Hello world", { variant: "error" })
+          }}
+        >
+          Toast
+        </Button> */}
         <Button
           type="submit"
           fullWidth

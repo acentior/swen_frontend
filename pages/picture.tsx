@@ -7,6 +7,8 @@ import { Camera, Folder, Google, PhotoCamera, Send } from '@mui/icons-material';
 import { useGeolocated } from 'react-geolocated'
 import { newCluster, newImage, newPost } from '../apis';
 import { Input } from '../constants';
+import { SnackbarProvider, VariantType, useSnackbar } from 'notistack';
+
 
 const cameraWidth = 720
 const cameraHeight = 720
@@ -31,6 +33,8 @@ const Picture: NextPage = () => {
   const [imgSrc, setImgSrc] = useState<null | string>(null);
   const [cameraOpen, setCameraOpen] = useState(false)
   const [comment, setComment] = useState("")
+  const { enqueueSnackbar } = useSnackbar();
+
 
   const {
     coords,
@@ -76,7 +80,7 @@ const Picture: NextPage = () => {
     // getPosition()
     ev.preventDefault()
     if (imgSrc === null) {
-      alert(`image is not yet set`)
+      enqueueSnackbar(`image is not yet set`, { variant: "error" })
       return
     }
     if (isGeolocationAvailable) {
@@ -93,18 +97,20 @@ const Picture: NextPage = () => {
                 })
                 .then((data) => {
                   console.log(data)
-                  alert("new post success")
-              })
+                  enqueueSnackbar(`Posted successfully`, { variant: "success" })
+                })
             })
             .catch((reason: any) => {
+              enqueueSnackbar(`Post failed ${reason}`, { variant: "error" })
+
             console.log(reason)
           })
         }
       } else {
-        alert("Please enable location on your browser")
+        enqueueSnackbar(`Please enable location on your browser`, { variant: "error" })
       }
     } else {
-      alert("Please update or change your browser")
+      enqueueSnackbar(`Please update or change your browser`, { variant: "error" })
     }
   }
 

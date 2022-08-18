@@ -2,8 +2,19 @@ import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { userService } from '../services';
+// import { SnackbarProvider as SnackbarProviderBase, VariantType, useSnackbar } from 'notistack';
+import { SnackbarProvider, VariantType, useSnackbar } from 'notistack';
+// import { toast } from "react-toastify";
+// import 'react-toastify/dist/ReactToastify.css';
+import toast, { Toaster } from 'react-hot-toast';
+import DismissableToast from '../components/DismissableToast';
+// import { SnackbarProvider } from 'material-ui-snackbar-provider'
+
+// export interface SnackbarProvider extends SnackbarProviderBase {
+//   render(): React.ReactNode;
+// }
 
 const theme = createTheme({
   palette: {
@@ -92,12 +103,24 @@ function MyApp({ Component, pageProps }: AppProps) {
       router.events.off('routeChangeComplete', authCheck)
     }
   }, [])
-  
 
   return (
-    <ThemeProvider theme={theme}>
-      < AnyComponent {...pageProps } />
-    </ThemeProvider>
+    <>
+      <ThemeProvider theme={theme}>
+        <SnackbarProvider
+          maxSnack={3}
+          anchorOrigin={{
+          vertical: 'top',
+            horizontal: 'right',
+          }}
+          autoHideDuration={2000}
+        >
+        {/* <DismissableToast /> */}
+          < AnyComponent {...pageProps} />
+        </SnackbarProvider>
+
+      </ThemeProvider>
+    </>
   )
 }
 
