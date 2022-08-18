@@ -71,13 +71,19 @@ const Map = ({ className }: Props) => {
   }
 
   useEffect(() => {
+    if (coords) {
+      setPosition([coords.latitude, coords.longitude])
+    }
     navigator.permissions.query({ name: 'geolocation' }).then((permissionStatus) => {
       permissionStatus.onchange = () => {
         getPosition()
+        console.log("coords")
         console.log(coords)
-        if (coords) {
-          setPosition([coords.latitude, coords.longitude])
-        }
+        navigator.geolocation.getCurrentPosition((pos: GeolocationPosition) => {
+          setPosition([pos.coords.latitude, pos.coords.longitude])
+        })
+        // if (coords) {
+        // }
       }
     });
 
