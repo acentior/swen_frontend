@@ -209,9 +209,6 @@ const Picture: NextPage = () => {
           justifyContent: "center",
           alignItems: 'center',
         }}>
-          <div>{`${isGeolocationAvailable}-`}</div>
-          <div>{`${isGeolocationEnabled}-`}</div>
-          <div>{`${coords}-`}</div>
           <Box component="form" noValidate onSubmit={handleSubmit({imgSrc, comment})} sx={{
             py: 8,
             px: 1,
