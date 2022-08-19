@@ -245,6 +245,10 @@ const Picture: NextPage = () => {
             </Button>
           </Box>
         </Grid>
+        <CameraDlg
+          open={cameraOpen}
+          onClose={handleCameraClose}
+        />
       </Grid>
     </>
   );
@@ -256,5 +260,62 @@ interface SimpleDialogProps {
   onClose: (value: string) => void;
 }
 
+const CameraDlg = (props: SimpleDialogProps) => {
+  const { onClose, open } = props;
+
+  const handleClose = () => {
+    onClose("");
+  };
+
+  const webcamRef = useRef<Webcam>(null);
+  const [imgSrc, setImgSrc] = useState<null | string>(null);
+
+  const capture = useCallback(() => {
+    if (webcamRef.current) {
+      const imageSrc = webcamRef.current.getScreenshot({ width: cameraWidth, height: cameraHeight });
+      setImgSrc(imageSrc);
+      if (imageSrc) {
+        onClose(imageSrc)
+      }
+    }
+  }, [webcamRef, setImgSrc]);
+
+  return (
+    <Dialog onClose={handleClose} open={open}
+      sx={{
+        maxWidth: "90vw"
+      }}
+    >
+      <DialogTitle>
+        <Typography
+          color='primary'
+          variant='h3'
+          component='h3'
+        >
+          Capture image from camera
+        </Typography>
+      </DialogTitle>
+      <Webcam
+        audio={false}
+        ref={webcamRef}
+        screenshotFormat="image/jpeg"
+        mirrored={true}
+        videoConstraints={videoConstraints}
+        screenshotQuality={1}
+        style={{
+          width: '100%'
+        }}
+      />
+      <Button color="primary" variant="text" component="label" endIcon={
+        <Camera/>
+      }
+        onClick={capture}
+      >
+        Capture
+        {/* <input hidden accept="image/*" type="file" /> */}
+      </Button>
+    </Dialog>
+  );
+}
 
 export default Picture
