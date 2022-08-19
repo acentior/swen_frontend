@@ -1,5 +1,6 @@
 import { Grid, Paper, Box, Typography} from '@mui/material'
 import React from 'react'
+import Link from 'next/link'
 
 const Sign = ({children} : {children : JSX.Element}) => {
   return (
@@ -21,9 +22,15 @@ const Sign = ({children} : {children : JSX.Element}) => {
         elevation={6}
         square
       >
-        <Typography variant='h1' m={0} py={5} component="h1">
+        <Link href={"/"} passHref={true}>
+          <Box component={"img"} src='/logo.png'  sx={{
+            cursor: "pointer"
+          }} />
+        </Link>
+        {/* <Image src='/logo.png' width={100} height={100} alt="logo"/> */}
+        {/* <Typography variant='h1' m={0} py={5} component="h1">
           SWEN
-        </Typography>
+        </Typography> */}
       </Grid>
       <Grid item xs={12} sm={8} md={6} component={Paper} elevation={6} square sx={{
         display: 'flex',

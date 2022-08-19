@@ -114,7 +114,13 @@ const Navbar = ({ title }: { title: string | undefined}) => {
               textDecoration: 'none',
             }}
           >
-            SWEN
+            <Link href={"/"} passHref={true}>
+              <Box component={"img"} src='/logo.png'  sx={{
+                cursor: "pointer",
+                width: "4rem",
+                height: "4.2rem"
+              }} />
+            </Link>
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
