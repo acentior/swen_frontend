@@ -1,7 +1,5 @@
-import { Grid, Paper, Box, Typography, Button} from '@mui/material'
+import { Grid, Typography, Button} from '@mui/material'
 import React from 'react'
-
-import styles from '../styles/ScreenBackground.module.css'
 
 const screenBackground = () => {
   return (
@@ -20,7 +18,6 @@ const screenBackground = () => {
           justifyContent: "center",
           alignItems: "center",
           background: "#00000000"
-          // textAlign: "center",
         }}
         component={"div"}
       >
@@ -45,7 +42,6 @@ const screenBackground = () => {
         <Button
           type="submit"
           color="primary"
-          // fullWidth
           variant="contained"
           sx={{ mt: 10, mb: 2, width: "50%" }}
         >
@@ -53,27 +49,13 @@ const screenBackground = () => {
         </Button>
         <Button
           type="submit"
-          // fullWidth
           variant="contained"
           sx={{ mt: 10, mb: 2, width: "50%" }}
         >
           Sign Up
         </Button>
-        {/* <Box
-          sx={{
-            my: 8,
-            mx: 4,
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: "center",
-            alignItems: 'center',
-            position: "relative"
-          }}
-        >
-        </Box> */}
       </Grid>
     </Grid>
-    // </Grid>
   )
 }
 

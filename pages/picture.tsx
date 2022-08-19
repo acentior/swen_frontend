@@ -1,13 +1,13 @@
 import type { NextPage } from 'next'
 import React, { useRef, useState, useCallback, useEffect } from 'react'
 import Navbar from '../components/Navbar';
-import { Grid, Paper, Box, Typography, ButtonGroup, Button, IconButton, TextField, Dialog, DialogTitle} from '@mui/material'
+import { Grid, Paper, Box, Typography, ButtonGroup, Button, TextField, Dialog, DialogTitle} from '@mui/material'
 import Webcam from 'react-webcam'
-import { Camera, Folder, Google, PhotoCamera, Send } from '@mui/icons-material';
+import { Camera, Folder, Send } from '@mui/icons-material';
 import { useGeolocated } from 'react-geolocated'
 import { newCluster, newImage, newPost } from '../apis';
 import { Input } from '../constants';
-import { SnackbarProvider, VariantType, useSnackbar } from 'notistack';
+import { useSnackbar } from 'notistack';
 
 
 const cameraWidth = 720
@@ -16,25 +16,13 @@ const aspectRatio = cameraWidth / cameraHeight
 
 const videoConstraints: MediaTrackConstraints = {
   aspectRatio: aspectRatio,
-  // width: {
-  //   min: cameraWidth
-  // },
-  // height: {
-  //   min: cameraHeight
-  // },
-  // facingMode: 'user'
-  // width: 1280,
-  // height: 720,
-  // facingMode: "user"
 };
 
 const Picture: NextPage = () => {
-  const webcamRef = useRef<Webcam>(null);
   const [imgSrc, setImgSrc] = useState<null | string>(null);
   const [cameraOpen, setCameraOpen] = useState(false)
   const [comment, setComment] = useState("")
   const { enqueueSnackbar } = useSnackbar();
-
 
   const {
     coords,
@@ -49,20 +37,13 @@ const Picture: NextPage = () => {
     userDecisionTimeout: 5000,
   });
 
-  const capture = useCallback(() => {
-    if (webcamRef.current) {
-      const imageSrc = webcamRef.current.getScreenshot({ width: cameraWidth, height: cameraHeight });
-      setImgSrc(imageSrc);
-    }
-  }, [webcamRef, setImgSrc]);
-
   const handleInputChange = (type: Input) => (ev: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> ) => {
     console.log(ev.target.value)
     switch (type) {
       case Input.Comment:
         setComment(ev.target.value)
         break;
-      
+
       default:
         break;
     }
@@ -77,7 +58,6 @@ const Picture: NextPage = () => {
   }
 
   const handleSubmit = ({imgSrc, comment}: {imgSrc: string | null, comment: string}) => (ev: React.FormEvent<HTMLFormElement>) => {
-    // getPosition()
     ev.preventDefault()
     if (imgSrc === null) {
       enqueueSnackbar(`image is not yet set`, { variant: "error" })
@@ -191,18 +171,6 @@ const Picture: NextPage = () => {
               {/* <input hidden accept="image/*" type="file" /> */}
             </Button>
           </ButtonGroup>
-          {/* <Webcam
-            audio={false}
-            ref={webcamRef}
-            screenshotFormat="image/jpeg"
-            mirrored={true}
-            videoConstraints={videoConstraints}
-            screenshotQuality={1}
-            style={{
-              width: '100%'
-            }}
-          />
-          <button onClick={capture}>Capture photo</button> */}
         </Grid>
         <Grid item xs={12} md={6} component={Paper} elevation={6} square sx={{
           display: 'flex',
@@ -212,7 +180,6 @@ const Picture: NextPage = () => {
           <Box component="form" noValidate onSubmit={handleSubmit({imgSrc, comment})} sx={{
             py: 8,
             px: 1,
-            // display: 'flex',
             flexDirection: 'column',
             justifyContent: "center",
             alignItems: 'center',
@@ -312,7 +279,6 @@ const CameraDlg = (props: SimpleDialogProps) => {
         onClick={capture}
       >
         Capture
-        {/* <input hidden accept="image/*" type="file" /> */}
       </Button>
     </Dialog>
   );

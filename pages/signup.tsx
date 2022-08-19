@@ -2,10 +2,10 @@ import type { NextPage } from 'next'
 import { Box, TextField, Button, Link, } from '@mui/material'
 import Sign from '../components/Sign'
 import { useRouter } from 'next/router'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Input } from '../constants'
 import { register } from '../apis'
-import { SnackbarProvider, VariantType, useSnackbar } from 'notistack';
+import { useSnackbar } from 'notistack';
 
 
 const SignUp: NextPage = () => {

@@ -16,9 +16,6 @@ const MapView: NextPage = () => {
   }, [])
   return (
     <Layout title="Map View">
-      {/* {Map && (
-        <Map/>
-      )} */}
       <MapComponent/>
     </Layout>
   )

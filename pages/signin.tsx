@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import React, {useState} from 'react'
 import { userService } from '../services'
 import { Input } from '../constants'
-import { SnackbarProvider, VariantType, useSnackbar } from 'notistack';
+import { useSnackbar } from 'notistack';
 
 
 const SignIn: NextPage = () => {
@@ -82,17 +82,6 @@ const SignIn: NextPage = () => {
           value={password}
           onChange={handleInputChange(Input.Password)}
         />
-        {/* <Button
-          type="button"
-          fullWidth
-          variant="contained"
-          sx={{ mt: 10, mb: 2 }}
-          onClick={() => {
-            enqueueSnackbar("Hello world", { variant: "error" })
-          }}
-        >
-          Toast
-        </Button> */}
         <Button
           type="submit"
           fullWidth
