@@ -20,6 +20,7 @@ import { MapPost, MediaPost, MediasResponse } from '../../constants';
 import uploads_get from '../../mock/uploads_get.json'
 import { Box, Button, Dialog, DialogTitle, Typography } from '@mui/material';
 import { geoReverse, uploadedImages } from '../../apis';
+import { isSafari } from '../../helpers';
 
 
 dayjs.extend(utc)
@@ -113,7 +114,7 @@ const Map = ({ className }: Props) => {
       setPosition([coords.latitude, coords.longitude])
     }
     console.log(navigator.userAgent)
-    if (navigator.userAgent !== 'safari') {
+    if (isSafari()) {
       navigator.permissions.query({ name: 'geolocation' }).then((permissionStatus) => {
         permissionStatus.onchange = () => {
           getPosition()
@@ -176,7 +177,7 @@ const Map = ({ className }: Props) => {
     }
 
     return () => {
-      if (navigator.userAgent !== 'safari') {
+      if (isSafari()) {
         navigator.permissions.query({ name: 'geolocation' }).then((permissionStatus) => {
           permissionStatus.onchange = null
         });
