@@ -41,6 +41,21 @@ export const newCluster = ({ latitude, longitude }: { latitude: string, longitud
   })
 }
 
+// all clusters
+export const getAllClusters = () => {
+  return fetchWrapper.get(`${baseUrl}/v1/clusters`)
+    .then((data: {
+      data: {
+        id: number,
+        latitude: string,
+        longitude: string,
+        expires: string
+      }[]
+    }) => {
+      return data.data
+    })
+}
+
 // upload image
 export const newImage = ({ url }: { url: string }) => {
   // const res = await fetch(url);

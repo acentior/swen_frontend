@@ -5,9 +5,13 @@ import { Grid, Paper, Box, Typography, ButtonGroup, Button, TextField, Dialog, D
 import Webcam from 'react-webcam'
 import { Camera, Folder, Send } from '@mui/icons-material';
 import { useGeolocated } from 'react-geolocated'
-import { newCluster, newImage, newPost } from '../apis';
+import { getAllClusters, newCluster, newImage, newPost } from '../apis';
 import { Input } from '../constants';
 import { useSnackbar } from 'notistack';
+
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc'
+import { isWithinMi } from '../helpers';
 
 
 const cameraWidth = 720
@@ -67,8 +71,19 @@ const Picture: NextPage = () => {
       if (isGeolocationEnabled) {
         console.log(coords)
         if (coords) {
-          newCluster({ latitude: coords?.latitude.toString(), longitude: coords.longitude.toString() })
-            .then((cluster_id: string) => {
+          getAllClusters().then((data) => {
+            return data.filter((cluster) => {
+              if (dayjs(cluster.expires, 'MM/DD/YYYY HH:mm:ss').isAfter(dayjs())) return true
+              else if (isWithinMi([Number(cluster.latitude), Number(cluster.longitude)], [coords.latitude, coords.longitude], 1)) return true
+              else false
+            })
+          }).then((data) => {
+            if (data.length > 0) {
+              return data[0].id.toString()
+            } else {
+              return newCluster({ latitude: coords?.latitude.toString(), longitude: coords.longitude.toString() })
+            }
+          }).then((cluster_id: string) => {
               console.log(`new cluster added, id: ${cluster_id}`)
               return newImage({ url: imgSrc })
                 .then((content: string) => {
