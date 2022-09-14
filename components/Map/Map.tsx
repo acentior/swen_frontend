@@ -114,7 +114,7 @@ const Map = ({ className }: Props) => {
       setPosition([coords.latitude, coords.longitude])
     }
     console.log(navigator.userAgent)
-    if (isSafari()) {
+    if (!isSafari()) {
       navigator.permissions.query({ name: 'geolocation' }).then((permissionStatus) => {
         permissionStatus.onchange = () => {
           getPosition()
@@ -177,7 +177,7 @@ const Map = ({ className }: Props) => {
     }
 
     return () => {
-      if (isSafari()) {
+      if (!isSafari()) {
         navigator.permissions.query({ name: 'geolocation' }).then((permissionStatus) => {
           permissionStatus.onchange = null
         });
