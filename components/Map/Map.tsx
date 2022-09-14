@@ -112,6 +112,7 @@ const Map = ({ className }: Props) => {
     if (coords) {
       setPosition([coords.latitude, coords.longitude])
     }
+    console.log(navigator.userAgent)
     if (navigator.userAgent !== 'safari') {
       navigator.permissions.query({ name: 'geolocation' }).then((permissionStatus) => {
         permissionStatus.onchange = () => {
