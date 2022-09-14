@@ -11,7 +11,7 @@ import { useSnackbar } from 'notistack';
 
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc'
-import { isWithinMi } from '../helpers';
+import { isSafari, isWithinMi } from '../helpers';
 
 
 const cameraWidth = 720
@@ -122,14 +122,18 @@ const Picture: NextPage = () => {
   }
 
   useEffect(() => {
-    navigator.permissions.query({ name: 'geolocation' }).then((permissionStatus) => {
-      permissionStatus.onchange = getPosition
-    });
+    if (!isSafari()) {
+      navigator.permissions.query({ name: 'geolocation' }).then((permissionStatus) => {
+        permissionStatus.onchange = getPosition
+      });
+    }
   
     return () => {
-      navigator.permissions.query({ name: 'geolocation' }).then((permissionStatus) => {
-        permissionStatus.onchange = null
-      });
+      if (!isSafari()) { 
+        navigator.permissions.query({ name: 'geolocation' }).then((permissionStatus) => {
+          permissionStatus.onchange = null
+        });
+      }
     }
   }, [])
   
