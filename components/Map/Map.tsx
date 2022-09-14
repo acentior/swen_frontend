@@ -112,11 +112,13 @@ const Map = ({ className }: Props) => {
     if (coords) {
       setPosition([coords.latitude, coords.longitude])
     }
-    navigator.permissions.query({ name: 'geolocation' }).then((permissionStatus) => {
-      permissionStatus.onchange = () => {
-        getPosition()
-      }
-    });
+    if (navigator.userAgent !== 'safari') {
+      navigator.permissions.query({ name: 'geolocation' }).then((permissionStatus) => {
+        permissionStatus.onchange = () => {
+          getPosition()
+        }
+      });
+    }
 
     function resToState(res: MediasResponse[]) {
       console.log(res.length)
@@ -173,9 +175,12 @@ const Map = ({ className }: Props) => {
     }
 
     return () => {
-      navigator.permissions.query({ name: 'geolocation' }).then((permissionStatus) => {
-        permissionStatus.onchange = null
-      });
+      if (navigator.userAgent !== 'safari') {
+        navigator.permissions.query({ name: 'geolocation' }).then((permissionStatus) => {
+          permissionStatus.onchange = null
+        });
+      }
+
     }
   }, [])
 
