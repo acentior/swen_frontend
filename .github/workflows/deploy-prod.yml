@@ -28,7 +28,6 @@ jobs:
       - name: Build 
         run: npm run-script export
         
-      - uses: actions/checkout@master
       - name: copy file via ssh password
         uses: appleboy/scp-action@master
         with:
@@ -36,6 +35,6 @@ jobs:
           username: ${{ secrets.SSH_PROD_USER }}
           password: ${{ secrets.SSH_PROD_PASS }}
           port: ${{ secrets.SSH_PROD_PORT }}
-          source: "./out/"
+          source: "./"
           overwrite: true
           target: "/home/swen-prod/web/app.swenewsapp.com/public_html/"
