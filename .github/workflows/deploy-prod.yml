@@ -23,10 +23,10 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Install Dependencies
-        run: npm run
+        run: npm install
 
       - name: Build 
-        run: npm export
+        run: npm run-script export
 
       - name: FTP-Deploy-Action
         uses: SamKirkland/FTP-Deploy-Action@4.1.0
