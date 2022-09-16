@@ -1,0 +1,40 @@
+name: Push to Development
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+    name: Build and Deploy
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2.1.0
+        with:
+          fetch-depth: 2
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build 
+        run: npm run-script export
+        
+      - name: copy file via ssh password
+        uses: appleboy/scp-action@master
+        with:
+          host: app.swenewsapp.com
+          username: ${{ secrets.SSH_PROD_USER }}
+          password: ${{ secrets.SSH_PROD_PASS }}
+          port: ${{ secrets.SSH_PROD_PORT }}
+          source: "./"
+          overwrite: true
+          target: "/home/swen-prod/web/app.swenewsapp.com/public_html/"
